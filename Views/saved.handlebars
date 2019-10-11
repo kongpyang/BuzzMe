@@ -1,11 +1,11 @@
   <body class="container px-2">
-    <div class="col-md-12 jumbotron mb-0 bg-success">
+    <div class="col-md-12 jumbotron mb-0 bg-danger">
         <div class="text-center">
-            <h1> BUZZ ME</h1>
+             <div class="buzz"> BUZZ ME</div>
         </div>
     </div>
     
-  <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+  <nav class="navbar navbar-expand-lg navbar-dark bg">
   <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false"
     aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -31,12 +31,12 @@
   <div class="col-md-12">
     {{#each saved}}
         <div class="article my-3">
-          <h5>{{title}}</h5>
-          <p>{{summary}}</p>
-            <a href={{link}} target="_blank">Read More</a>
+          <h5 align="middle">{{title}}</h5>
+          <p align="middle">{{summary}}</p>
+            <a href={{link}} class="inlinks" target="_blank" align="middle">Read More</a>
               <form action="/delete/{{this.id}}" method="POST" id="delete-article" class="d-inline">
                   <input type="hidden" name="id" value={{_id}}>
-                  <button class="btn btn-link ml-3" id="saveButton" type="submit">Delete</button>
+                  <button class="btn btn-link ml-3" id="saveButton" type="submit" align="middle">Delete</button>
               </form>
         </div>
       {{/each}}

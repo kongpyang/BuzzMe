@@ -30,7 +30,7 @@ app.set('index', __dirname + '/views');
 
 
 // Hook mongoose configuration to the db variable
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
@@ -45,9 +45,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/scrape", function(req, res) {
-  // First, we grab the body of the html with axios
   axios.get("http://www.echojs.com/").then(function(response) {
-    // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
 
     // Now, we grab every h2 within an article tag, and do the following:
@@ -122,8 +120,6 @@ app.post('/save/:id', function(req, res) {
       });
 });
 
-
-
 // get saved articles
 app.get("/saved", function (req, res) {
   var savedArticles = [];
@@ -133,7 +129,6 @@ app.get("/saved", function (req, res) {
       res.render("saved", { saved })
   })
 });
-
 
 // delete Article
 app.post('/delete/:id', function(req, res) {

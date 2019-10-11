@@ -27,4 +27,4 @@ cheerio
 
 axios
 
-<img src="assets/images/buzz.png" alt="buzz"></image>
+<img src="assets/image/buzz.png" alt="buzz"></image>

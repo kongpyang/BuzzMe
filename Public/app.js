@@ -1,7 +1,5 @@
 
-// Grab the articles as a json
 $.getJSON("/articles", function(data) {
-    // For each one
     for (var i = 0; i < data.length; i++) {
       $("#articles").append("<p data-id='" + data[i]._id + "'>" + data[i].title + "<br />" + data[i].link + "</p>");
     }
@@ -16,7 +14,7 @@ $.getJSON("/articles", function(data) {
   });
   
   
-  // Save my articles
+  // Save my articles section
   $("#savedArticle").on("click", function (event) {
     event.preventDefault();
     let id = $(this).children().val();
@@ -31,7 +29,6 @@ $.getJSON("/articles", function(data) {
   });
   
   
-  // Delete saved articles on click
   $("#delete-article").on("click", function (event) {
     event.preventDefault();
     let id = $(this).children().val();

@@ -3,25 +3,19 @@ const exphbs = require('express-handlebars');
 var mongoose = require("mongoose");
 var path = require('path');
 
-// Our scraping tools
-// Axios is a promised-based http library, similar to jQuery's Ajax method
-// It works on the client and on the server
+
 var axios = require("axios");
 var cheerio = require("cheerio");
 
 // Require all models
 var db = require("./models");
 
-// Initialize Express
 var app = express();
 
 const PORT = process.env.PORT || 3000;
 
-// Configure middleware
 app.use(express.urlencoded({ extended: true }));
-// Parse request body as JSON
 app.use(express.json());
-// Make public a static folder
 app.use(express.static("public"));
 
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
@@ -29,14 +23,12 @@ app.set("view engine", "handlebars");
 app.set('index', __dirname + '/views');
 
 
-// Hook mongoose configuration to the db variable
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines";
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 
 //ROUTES
 
-// A GET route for scraping the echoJS website
 app.get("/", function (req, res) {
   db.Article.find({ saved: false }, function (err, result) {
       if (err) throw err;
@@ -48,12 +40,9 @@ app.get("/scrape", function(req, res) {
   axios.get("http://www.echojs.com/").then(function(response) {
     var $ = cheerio.load(response.data);
 
-    // Now, we grab every h2 within an article tag, and do the following:
     $("article h2").each(function(i, element) {
-      // Save an empty result object
       var result = {};
 
-      // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
         .children("a")
         .text();
@@ -64,19 +53,16 @@ app.get("/scrape", function(req, res) {
           .children("a")
           .text();
 
-      // Create a new Article using the `result` object built from scraping
+      // Create a new Article from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
-          // View the added result in the console
           console.log(dbArticle);
         })
         .catch(function(err) {
-          // If an error occurred, log it
           console.log(err);
         });
     });
 
-    // Send a message to the client
     res.send("Scrape Complete");
   });
 });
@@ -93,7 +79,6 @@ app.get("/articles", function(req, res) {
 });
 
 
-// get article by ObjectId
 app.get('/articles/:id', function(req, res) {
   db.Article.findOne({ _id: req.params.id })
   .then(function(dbArticle) {
